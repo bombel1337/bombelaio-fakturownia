@@ -12,7 +12,7 @@ func main() {
 	utils.Logger = logrus.New()
 	utils.Logger.Formatter = &utils.CustomFormatter{}
 
-	filepath := "example.csv"
+	filepath := "invoices.csv"
     data, err := utils.ReadCSV(filepath)
     if err != nil {
 		utils.Log(utils.Logger, logrus.ErrorLevel, fmt.Sprintf("Error reading csv: %v", err))
@@ -26,7 +26,7 @@ func main() {
 
 		go func(i int, value map[string]string) {
 			indexInvoice := fmt.Sprintf("%03d", i)
-			
+
 			createdInvoice, err := utils.CreateInvoice(value);
 			if createdInvoice {
 				utils.Log(utils.Logger, logrus.InfoLevel, fmt.Sprintf("[%v] Invoice number: %v, has been created!", indexInvoice, err) )
