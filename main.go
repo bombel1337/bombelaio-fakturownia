@@ -3,7 +3,6 @@ package main
 import (
 	"bombelaio-fakturownia/utils"
 	"fmt"
-	"time"
 	"bufio"
 	"os"
 	"syscall"
@@ -28,14 +27,12 @@ var (
 )
 
 func setConsoleTitle(title string) {
-	// Call the Windows API function to set the console title
 	utf16Title := syscall.StringToUTF16(title)
 	procSetConsoleTitleW.Call(uintptr(unsafe.Pointer(&utf16Title[0])))
 }
 
 
 func main() {
-
 
 	utils.Logger = logrus.New()
 	utils.Logger.Formatter = &utils.CustomFormatter{}
@@ -58,39 +55,29 @@ func main() {
         return
     }
 
-
 	if len(dataCSV) == 0 {
 		utils.Log(utils.Logger, logrus.ErrorLevel, fmt.Sprintf("Invoices.csv file is empty."))
 
 	} else {
-		for  index, value := range dataCSV {
 
-			// go func(i int, value map[string]string) {
-				indexInvoice := fmt.Sprintf("%03d", index)
-	
-				createdInvoice, err := utils.CreateInvoice(value);
-				if createdInvoice {
-					invoicesCreated++;
-					setConsoleTitle(fmt.Sprintf("bombel invoice maker, Invoices created %x out of %v.", invoicesCreated, len(dataCSV)))
+		for index, value := range dataCSV {
+			indexInvoice := fmt.Sprintf("%03d", index + 1)
 
-					utils.Log(utils.Logger, logrus.InfoLevel, fmt.Sprintf("[%v] Invoice number: %v, has been created!", indexInvoice, err) )
-				} else {
-					utils.Log(utils.Logger, logrus.ErrorLevel, fmt.Sprintf("[%v] Error making invoice: %v", indexInvoice, err))
-				}
-
-				// done <- true
-			// }(index, value)
-			time.Sleep(1 * time.Second)
-	
+			createdInvoice, err := utils.CreateInvoice(value)
+			if createdInvoice {
+				invoicesCreated++
+				setConsoleTitle(fmt.Sprintf("bombel invoice maker, Invoices created %x out of %v.", invoicesCreated, len(dataCSV)))
+		
+				utils.Log(utils.Logger, logrus.InfoLevel, fmt.Sprintf("[%v] Invoice number: %v, has been created!", indexInvoice, err))
+			} else {
+				utils.Log(utils.Logger, logrus.ErrorLevel, fmt.Sprintf("[%v] Error making invoice: %v", indexInvoice, err))
+			}
+		
 		}
-	
-		// for i := 0; i < len(dataCSV); i++ {
-		// 	<-done
-		// }
+
+
 
 	}
-
-
 	utils.Log(utils.Logger, logrus.WarnLevel, fmt.Sprintf("Press Enter to close!"))
 	reader := bufio.NewReader(os.Stdin)
 	reader.ReadString('\n')

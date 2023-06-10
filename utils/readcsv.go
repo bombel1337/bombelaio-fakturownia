@@ -5,7 +5,7 @@ import (
     "os"
 )
 
-func ReadCSV(filepath string) (map[int]map[string]string, error) {
+func ReadCSV(filepath string) ([]map[string]string, error) {
 	file, err := os.Open(filepath)
 	if err != nil {
 		return nil, err
@@ -18,18 +18,18 @@ func ReadCSV(filepath string) (map[int]map[string]string, error) {
 		return nil, err
 	}
 
-	results := make(map[int]map[string]string)
+	results := make([]map[string]string, 0)
 
 	headers := rows[0]
 
-	for i, row := range rows[1:] {
+	for _, row := range rows[1:] {
 		rowData := make(map[string]string)
 
 		for j, column := range row {
 			rowData[headers[j]] = column
 		}
 
-		results[i+1] = rowData
+		results = append(results, rowData)
 	}
 
 	return results, nil
