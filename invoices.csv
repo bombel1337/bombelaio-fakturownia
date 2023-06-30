@@ -1,1 +1,1 @@
-VATID,Sale Date,Product,Price,Quantity
+Invoice Number,VATID,Sale Date,Product,Price,Quantity,Additional Notes
