@@ -30,25 +30,34 @@ func CreateInvoice(data map[string]string) (bool, error) {
 		}
 	}
 	dateOnly := dateTime.Format("2006-01-02")
+	
+	if data["Invoice Number"] == "auto" || data["Invoice Number"] == "" {
+		data["Invoice Number"] = "null";
+	} else {
+		data["Invoice Number"] = `"` + data["Invoice Number"] + `"`
+	}
+
 	var invoiceData = fmt.Sprintf(`{
         "api_token": "%v",
         "invoice": {
 			"kind":"vat",
+			"number": %s,
 			"status":"paid",
-			"currency":       "EUR",
+			"currency":  "EUR",
 			"exchange_currency": "PLN",
 			"sell_date": "%s",
 			"place" : "%v",
 			"payment_type" : "transfer",
 			"payment_to_kind": "off",
 			"client_id": %v,
+			"description":"%v",
 			"buyer_override": true,
 			"buyer_tax_no": %q,
             "positions":[
                 {"name":"%s", "tax":0, "total_price_gross":%v, "quantity":%v}
             ]
         }
-    }`,API_KEY, dateOnly, City, ClientId, data["VATID"], data["Product"], data["Price"], data["Quantity"])
+    }`,API_KEY, data["Invoice Number"], dateOnly, City, ClientId, data["Additional Notes"], data["VATID"], data["Product"], data["Price"], data["Quantity"])
 
 
 	req, err := http.NewRequest("POST", fmt.Sprintf("https://%s.fakturownia.pl/invoices.json", Domain), strings.NewReader(invoiceData))

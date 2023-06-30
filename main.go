@@ -62,6 +62,7 @@ func main() {
 
 		for index, value := range dataCSV {
 			indexInvoice := fmt.Sprintf("%03d", index + 1)
+			
 
 			createdInvoice, err := utils.CreateInvoice(value)
 			if createdInvoice {
