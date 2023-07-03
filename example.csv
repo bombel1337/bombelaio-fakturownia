@@ -1,3 +1,3 @@
-Invoice Number,VATID,Sale Date,Product,Price,Quantity,Additional Notes
-auto,DE123,2023-05-08 11:47:45,adidas adiFOM Superstar White Black 5.5 HQ8750,751.01,1,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing)
-56512-1230,NL555,2023-05-05,adidas panda low,211,5,
+Invoice Type,Invoice Number,VATID,Sale Date,Invoice Date,Product,Price,Quantity,Currency,Additional Notes
+vat,auto,DE123,2020-05-17 14:35:20,2020-05-19 14:35:20,jordan 1 high samba,751.01,1,GBP,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing)
+wdt,56512-1230,NL555,2022-05-05,today,adidas panda low,211,5,EUR,

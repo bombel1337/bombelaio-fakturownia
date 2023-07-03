@@ -19,6 +19,7 @@ type ResponseCreateInvoice struct {
 
 
 func CreateInvoice(data map[string]string) (bool, error) {
+	var dateTimeInvoice time.Time
 
 	client := &http.Client{}
 
@@ -37,15 +38,31 @@ func CreateInvoice(data map[string]string) (bool, error) {
 		data["Invoice Number"] = `"` + data["Invoice Number"] + `"`
 	}
 
+
+	if data["Invoice Date"] == "today" || data["Invoice Date"] == "" {
+		data["Invoice Date"] = "";
+	} else {
+		dateTimeInvoice, err = time.Parse("2006-01-02 15:04:05", data["Invoice Date"])
+		if err != nil {
+			dateTimeInvoice, err = time.Parse("2006-01-02", data["Invoice Date"])
+			if err != nil {
+				return false, err
+			}
+		}
+		data["Invoice Date"] = dateTimeInvoice.Format("2006-01-02")
+	}
+
+
 	var invoiceData = fmt.Sprintf(`{
         "api_token": "%v",
         "invoice": {
-			"kind":"vat",
+			"kind":"%s",
 			"number": %s,
 			"status":"paid",
-			"currency":  "EUR",
+			"currency":  "%s",
 			"exchange_currency": "PLN",
 			"sell_date": "%s",
+			"issue_date":"%s",
 			"place" : "%v",
 			"payment_type" : "transfer",
 			"payment_to_kind": "off",
@@ -57,7 +74,7 @@ func CreateInvoice(data map[string]string) (bool, error) {
                 {"name":"%s", "tax":0, "total_price_gross":%v, "quantity":%v}
             ]
         }
-    }`,API_KEY, data["Invoice Number"], dateOnly, City, ClientId, data["Additional Notes"], data["VATID"], data["Product"], data["Price"], data["Quantity"])
+    }`,API_KEY,data["Invoice Type"], data["Invoice Number"], data["Currency"], dateOnly, data["Invoice Date"], City, ClientId, data["Additional Notes"], data["VATID"], data["Product"], data["Price"], data["Quantity"])
 
 
 	req, err := http.NewRequest("POST", fmt.Sprintf("https://%s.fakturownia.pl/invoices.json", Domain), strings.NewReader(invoiceData))
