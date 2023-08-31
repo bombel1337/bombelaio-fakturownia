@@ -1,28 +1,27 @@
 package utils
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
-    "os"
+	"os"
 )
 
 type ConstantConfigData struct {
-	Domain  string `json:"domain"`
-	ClientId   int    `json:"client_id"`
-	API_KEY string `json:"api_key"`
-	City string `json:"email"`
+	Domain   string `json:"domain"`
+	ClientId int    `json:"client_id"`
+	API_KEY  string `json:"api_key"`
+	City     string `json:"email"`
 }
 
-
 var (
-	Domain string
-	ClientId  int
-	API_KEY string
-	City string
+	Domain   string
+	ClientId int
+	API_KEY  string
+	City     string
 )
 
-func ReadJSON(filepath string) (error) {
+func ReadJSON(filepath string) error {
 	file, err := os.Open("data.json")
 	if err != nil {
 		fmt.Println("Error opening JSON file:", err)
@@ -30,14 +29,12 @@ func ReadJSON(filepath string) (error) {
 	}
 	defer file.Close()
 
-	// Read the file contents
 	content, err := ioutil.ReadAll(file)
 	if err != nil {
 		fmt.Println("Error reading JSON file:", err)
-		return err	
+		return err
 	}
 
-	// Parse the JSON data into a Person struct
 	var dataJSON ConstantConfigData
 	err = json.Unmarshal(content, &dataJSON)
 	if err != nil {

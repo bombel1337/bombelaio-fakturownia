@@ -1,8 +1,8 @@
 package utils
 
 import (
-    "encoding/csv"
-    "os"
+	"encoding/csv"
+	"os"
 )
 
 func ReadCSV(filepath string) ([]map[string]string, error) {

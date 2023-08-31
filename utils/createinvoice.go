@@ -16,8 +16,6 @@ type ResponseCreateInvoice struct {
 	Number  string `json:"number"`
 }
 
-
-
 func CreateInvoice(data map[string]string) (bool, error) {
 	var dateTimeInvoice time.Time
 
@@ -31,16 +29,15 @@ func CreateInvoice(data map[string]string) (bool, error) {
 		}
 	}
 	dateOnly := dateTime.Format("2006-01-02")
-	
+
 	if data["Invoice Number"] == "auto" || data["Invoice Number"] == "" {
-		data["Invoice Number"] = "null";
+		data["Invoice Number"] = "null"
 	} else {
 		data["Invoice Number"] = `"` + data["Invoice Number"] + `"`
 	}
 
-
 	if data["Invoice Date"] == "today" || data["Invoice Date"] == "" {
-		data["Invoice Date"] = "";
+		data["Invoice Date"] = ""
 	} else {
 		dateTimeInvoice, err = time.Parse("2006-01-02 15:04:05", data["Invoice Date"])
 		if err != nil {
@@ -51,7 +48,6 @@ func CreateInvoice(data map[string]string) (bool, error) {
 		}
 		data["Invoice Date"] = dateTimeInvoice.Format("2006-01-02")
 	}
-
 
 	var invoiceData = fmt.Sprintf(`{
         "api_token": "%v",
@@ -74,8 +70,7 @@ func CreateInvoice(data map[string]string) (bool, error) {
                 {"name":"%s", "tax":0, "total_price_gross":%v, "quantity":%v}
             ]
         }
-    }`,API_KEY,data["Invoice Type"], data["Invoice Number"], data["Currency"], dateOnly, data["Invoice Date"], City, ClientId, data["Additional Notes"], data["VATID"], data["Product"], data["Price"], data["Quantity"])
-
+    }`, API_KEY, data["Invoice Type"], data["Invoice Number"], data["Currency"], dateOnly, data["Invoice Date"], City, ClientId, data["Additional Notes"], data["VATID"], data["Product"], data["Price"], data["Quantity"])
 
 	req, err := http.NewRequest("POST", fmt.Sprintf("https://%s.fakturownia.pl/invoices.json", Domain), strings.NewReader(invoiceData))
 	if err != nil {
@@ -99,7 +94,7 @@ func CreateInvoice(data map[string]string) (bool, error) {
 		return false, err
 	}
 
-	if (resp.StatusCode == 201){
+	if resp.StatusCode == 201 {
 		if responseData.Number != "" {
 			err := errors.New(string(responseData.Number))
 			return true, err
@@ -113,4 +108,3 @@ func CreateInvoice(data map[string]string) (bool, error) {
 		return false, err
 	}
 }
-
