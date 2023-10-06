@@ -58,7 +58,7 @@ func CreateInvoice(data []map[string]string, merged bool) (bool, error) {
 		}
 		data[0]["Invoice Date"] = dateTimeInvoice.Format("2006-01-02")
 	}
-
+	
 
 
 	invoiceData := map[string]interface{}{
@@ -69,6 +69,8 @@ func CreateInvoice(data []map[string]string, merged bool) (bool, error) {
 			"status":            "paid",
 			"currency":          data[0]["Currency"],
 			"exchange_currency": "PLN",
+			"lang":"pl/en",
+			"seller_person":			data[0]["Signature"],
 			"sell_date":         dateOnly,
 			"issue_date":        data[0]["Invoice Date"],
 			"place":             City,
@@ -83,7 +85,6 @@ func CreateInvoice(data []map[string]string, merged bool) (bool, error) {
 	}
 	invoiceDataJSON, err := json.Marshal(invoiceData)
 	if err != nil {
-		fmt.Println("Error marshalling JSON:", err)
 		return false, err
 	}
 	req, err := http.NewRequest("POST", fmt.Sprintf("https://%s.fakturownia.pl/invoices.json", Domain), strings.NewReader(string(invoiceDataJSON)))
@@ -109,7 +110,6 @@ func CreateInvoice(data []map[string]string, merged bool) (bool, error) {
 	}
 
 	if resp.StatusCode == 201 {
-		fmt.Println(responseData)
 		if responseData.Number != "" {
 			err := errors.New(string(responseData.Number))
 			return true, err

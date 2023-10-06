@@ -1,9 +1,9 @@
-Merged Invoice,Invoice Type,Invoice Number,VATID,Sale Date,Invoice Date,Product,Price,Quantity,Currency,Additional Notes
-yes,vat,monday211,DE5555555,2023-10-06,2023-10-06,dunk,94.29,1,EUR,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing)
-yes,vat,,,,,eclipse,80.71,1,,
-yes,vat,9991,DE354793020,2023-10-06,2023-10-06,tomato500,94.29,1,EUR,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing)
-yes,vat,,,,,potato200,80.71,1,,
-yes,vat,,,,,dunk low,94.29,1,,
-yes,vat,,,,,adidasek,80.71,1,,
-no,vat,auto,DE123,2020-05-17 14:35:20,2020-05-19 14:35:20,jordan 1 high samba,751.01,1,GBP,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing)
-no,wdt,auto,NL555,2022-05-05,today,adidas panda low,211,5,EUR,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing)
+Merged Invoice,Invoice Type,Invoice Number,VATID,Sale Date,Invoice Date,Product,Price,Quantity,Currency,Additional Notes,Signature
+yes,vat,monday211,DE5555555,2023-10-06,2023-10-06,dunk,94.29,1,EUR,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing),Marek Rower
+yes,vat,,,,,eclipse,80.71,1,,,
+yes,vat,9991,DE354793020,2023-10-06,2023-10-06,tomato500,94.29,1,EUR,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing),Andrzej A
+yes,vat,,,,,potato200,80.71,1,,,
+yes,vat,,,,,dunk low,94.29,1,,,
+yes,vat,,,,,adidasek,80.71,1,,,
+no,vat,auto,DE123,2023-10-06,2023-10-05 14:35:20,jordan 1 high samba,751.01,1,GBP,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing),
+no,wdt,auto,NL555,2023-10-06,today,adidas panda low,211,5,EUR,1) Intra-EU supply of goods in accordance with article 138 Council Directive 2006/112/EC \n 2) Invoice issued by the customer (self-billing),
