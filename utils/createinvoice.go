@@ -16,63 +16,77 @@ type ResponseCreateInvoice struct {
 	Number  string `json:"number"`
 }
 
-func CreateInvoice(data map[string]string) (bool, error) {
+func CreateInvoice(data []map[string]string, merged bool) (bool, error) {
+	positions := []map[string]interface{}{}
+
+	// Populate the positions slice from your data
+	for _, item := range data {
+		newItem := map[string]interface{}{
+			"name":             item["Product"],
+			"tax":              0,
+			"total_price_gross": item["Price"],
+			"quantity":         item["Quantity"],
+		}
+		positions = append(positions, newItem)
+	}
 	var dateTimeInvoice time.Time
 
 	client := &http.Client{}
 
-	dateTime, err := time.Parse("2006-01-02 15:04:05", data["Sale Date"])
+	dateTime, err := time.Parse("2006-01-02 15:04:05", data[0]["Sale Date"])
 	if err != nil {
-		dateTime, err = time.Parse("2006-01-02", data["Sale Date"])
+		dateTime, err = time.Parse("2006-01-02", data[0]["Sale Date"])
 		if err != nil {
 			return false, err
 		}
 	}
 	dateOnly := dateTime.Format("2006-01-02")
 
-	if data["Invoice Number"] == "auto" || data["Invoice Number"] == "" {
-		data["Invoice Number"] = "null"
-	} else {
-		data["Invoice Number"] = `"` + data["Invoice Number"] + `"`
+	if data[0]["Invoice Number"] == "auto" || data[0]["Invoice Number"] == "" {
+		data[0]["Invoice Number"] = ""
 	}
 
-	if data["Invoice Date"] == "today" || data["Invoice Date"] == "" {
-		data["Invoice Date"] = ""
+	if data[0]["Invoice Date"] == "today" || data[0]["Invoice Date"] == "" {
+		data[0]["Invoice Date"] = ""
 	} else {
-		dateTimeInvoice, err = time.Parse("2006-01-02 15:04:05", data["Invoice Date"])
+		dateTimeInvoice, err = time.Parse("2006-01-02 15:04:05", data[0]["Invoice Date"])
 		if err != nil {
-			dateTimeInvoice, err = time.Parse("2006-01-02", data["Invoice Date"])
+			dateTimeInvoice, err = time.Parse("2006-01-02", data[0]["Invoice Date"])
 			if err != nil {
 				return false, err
 			}
 		}
-		data["Invoice Date"] = dateTimeInvoice.Format("2006-01-02")
+		data[0]["Invoice Date"] = dateTimeInvoice.Format("2006-01-02")
 	}
 
-	var invoiceData = fmt.Sprintf(`{
-        "api_token": "%v",
-        "invoice": {
-			"kind":"%s",
-			"number": %s,
-			"status":"paid",
-			"currency":  "%s",
-			"exchange_currency": "PLN",
-			"sell_date": "%s",
-			"issue_date":"%s",
-			"place" : "%v",
-			"payment_type" : "transfer",
-			"payment_to_kind": "off",
-			"client_id": %v,
-			"description":"%v",
-			"buyer_override": true,
-			"buyer_tax_no": %q,
-            "positions":[
-                {"name":"%s", "tax":0, "total_price_gross":%v, "quantity":%v}
-            ]
-        }
-    }`, API_KEY, data["Invoice Type"], data["Invoice Number"], data["Currency"], dateOnly, data["Invoice Date"], City, ClientId, data["Additional Notes"], data["VATID"], data["Product"], data["Price"], data["Quantity"])
 
-	req, err := http.NewRequest("POST", fmt.Sprintf("https://%s.fakturownia.pl/invoices.json", Domain), strings.NewReader(invoiceData))
+
+	invoiceData := map[string]interface{}{
+		"api_token": API_KEY,
+		"invoice": map[string]interface{}{
+			"kind":              data[0]["Invoice Type"],
+			"number":            data[0]["Invoice Number"], 
+			"status":            "paid",
+			"currency":          data[0]["Currency"],
+			"exchange_currency": "PLN",
+			"sell_date":         dateOnly,
+			"issue_date":        data[0]["Invoice Date"],
+			"place":             City,
+			"payment_type":      "transfer",
+			"payment_to_kind":   "off",
+			"client_id":         ClientId,
+			"description":       data[0]["Additional Notes"],
+			"buyer_override":    true,
+			"buyer_tax_no":      data[0]["VATID"],
+			"positions":         positions, // Add the positions slice here
+		},
+	}
+	invoiceDataJSON, err := json.Marshal(invoiceData)
+	if err != nil {
+		fmt.Println("Error marshalling JSON:", err)
+		return false, err
+	}
+	req, err := http.NewRequest("POST", fmt.Sprintf("https://%s.fakturownia.pl/invoices.json", Domain), strings.NewReader(string(invoiceDataJSON)))
 	if err != nil {
 		return false, err
 	}
@@ -95,6 +109,7 @@ func CreateInvoice(data map[string]string) (bool, error) {
 	}
 
 	if resp.StatusCode == 201 {
+		fmt.Println(responseData)
 		if responseData.Number != "" {
 			err := errors.New(string(responseData.Number))
 			return true, err
