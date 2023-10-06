@@ -71,6 +71,7 @@ func main() {
 
 				created, err := utils.CreateInvoice(mergedValues, true)
 				if(created) {
+					invoicesCreated++;
 					setConsoleTitle(fmt.Sprintf("bombel invoice maker, Invoices created %x out of %v. Total products: %v", invoicesCreated, len(dataCSV), productsInInvoices))
 					utils.Log(utils.Logger, logrus.InfoLevel, fmt.Sprintf("[%v] Invoice number: %v, has been created, total products in invoice: %v!", indexInvoice, err, productsInLastInvoice))
 				} else {
@@ -87,6 +88,7 @@ func main() {
 				mergedValues = append(mergedValues, value)
 				created, err := utils.CreateInvoice(mergedValues, false)
 				if(created){
+					invoicesCreated++;
 					setConsoleTitle(fmt.Sprintf("bombel invoice maker, Invoices created %x out of %v. Total products: %v", invoicesCreated, len(dataCSV), productsInInvoices))
 					utils.Log(utils.Logger, logrus.InfoLevel, fmt.Sprintf("[%v] Invoice number: %v, has been created!", indexInvoice, err))
 				} else {
