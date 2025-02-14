@@ -14,7 +14,7 @@ Aby korzystać z aplikacji, musisz skonfigurować dostęp do API fakturownia.pl.
 4. Wygeneruj nowy klucz API (jeśli go jeszcze nie masz).
 5. Skopiuj wygenerowany klucz API. 
 6. Skopiuj twoje id Usera, przykładowo: https://agent89.fakturownia.pl <- w tym przypadku `domain` to agent89.
-7. Wejdź w zakładke klienci, https://agent89.fakturownia.pl/`clients` i wybierz klienta dla którego chcesz wygenerować faktury.
+7. Wejdź w zakładke klienci, https://agent89.fakturownia.pl/clients i wybierz klienta dla którego chcesz wygenerować faktury.
 8. Po wybraniu klienta trzeba skopiować jego `client_id` https://agent89.fakturownia.pl/clients/88732555 <- w tym przypadku jest to  `88732555`.
 
 
