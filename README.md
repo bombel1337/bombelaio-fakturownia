@@ -22,13 +22,22 @@ Teraz, gdy masz `api_key`, `domain`, `client_id` możesz go użyć w aplikacji.
 
 ## Uruchamianie aplikacji
 
-Aby uruchomić aplikację i wystawić fakturę, wykonaj następujące kroki:
+w tym przypadku jest to `88732555`.
 
-1. Pobierz program wraz z całą zawartością.
+Teraz, gdy masz wszystkie wymagane informacje: `api_key`, `domain`, `client_id`, możesz je wykorzystać w aplikacji.
+
+## Uruchamianie aplikacji
+
+Aby uruchomić aplikację i wystawić fakturę:
+
+1. **Pobierz** program wraz z całą zawartością.
 2. Przejdź do pliku `data.json`.
-3. Uzupełnij plik `data.json` danymi z wcześniejszej konfiguracji.
-4. Uzupełnij plik `invoices.csv`. Przykładowy uzupełniony plik to `example.csv`.
-5. Odpal program `bombelaio-fakturownia.exe`.
-6. Ciesz się z wygenerowanych faktur.
+3. **Uzupełnij** plik `data.json` danymi z wcześniejszej konfiguracji (`api_key`, `domain`, `client_id` itp.).
+4. **Uzupełnij** plik `invoices.csv`. Przykład znajduje się w pliku `example.csv`.
+5. **Uruchom** program `bombelaio-fakturownia.exe`.
+6. **Korzystaj** z wygenerowanych faktur.
 
+---
 
+> **Informacja**  
+> Upewnij się, że wprowadzane dane są prawidłowe i aktualne, aby wystawiane faktury były poprawnie generowane.
