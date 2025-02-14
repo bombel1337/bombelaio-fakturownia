@@ -22,12 +22,7 @@ Teraz, gdy masz `api_key`, `domain`, `client_id` możesz go użyć w aplikacji.
 
 ## Uruchamianie aplikacji
 
-w tym przypadku jest to `88732555`.
-
 Teraz, gdy masz wszystkie wymagane informacje: `api_key`, `domain`, `client_id`, możesz je wykorzystać w aplikacji.
-
-## Uruchamianie aplikacji
-
 Aby uruchomić aplikację i wystawić fakturę:
 
 1. **Pobierz** program wraz z całą zawartością.
